@@ -8,6 +8,7 @@
   "module": "dist/index.js",
   "scripts": {
     "dev": "tsc --watch",
+    "build": "tsc",
     "bundle": "node ./bundle.mjs"
   },
   "files": [
