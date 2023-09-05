@@ -1,10 +1,13 @@
 import { createComponent } from '../../../../../dist/index.js';
 
 createComponent('smol-header', ({ $ }) => {
-    return ({ render }) => render`
+    const darkMode = $.store('dark-mode', {});
+
+    return ({ render, _if }) => render`
     <header>
         <smol-logo></smol-logo>
-        <p>a library for quickly creating web components.</p>
+        <p>a library for quickly creating ${ _if(darkMode, () => render`cool`) } web components</p>
+        <p>zero dependencies - just javascript</p>
 
         <img src="./assets/img/lines.svg" />
     </header>

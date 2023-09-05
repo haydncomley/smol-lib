@@ -27,8 +27,11 @@ createComponent('a-app', ({ $ }) => {
             <a-list-item label="Dark Mode">
                 <a-toggle value="${ _bind(enableDarkMode) }"></a-toggle>
             </a-list-item>
+            <a-list-item label="Toggle Switch">
+                <a-toggle></a-toggle>
+            </a-list-item>
             <a-list-item label="Radio Checkbox">
-                <a-radio value="${ _bind(enableDarkMode) }"></a-radio>
+                <a-radio></a-radio>
             </a-list-item>
             <a-list-item label="This is a button">
                 <a-button disabled="${ _bind(enableDarkMode) }" click="${ _bind(onClick) }">
