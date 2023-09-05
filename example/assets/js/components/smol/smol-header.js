@@ -21,7 +21,6 @@ createComponent('smol-header', ({ $ }) => {
         backdrop-filter: blur(.3rem) grayscale(1);
         z-index: 1;
         overflow: hidden;
-        border-radius: var(--spacing) var(--spacing) 0 0;
     }
 
     header::before {
