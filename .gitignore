@@ -1,5 +1,4 @@
-.yarn/*
+.yarn
 build
-dist
 docs
 node_modules

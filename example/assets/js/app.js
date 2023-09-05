@@ -24,8 +24,6 @@ createComponent('a-app', ({ $ }) => {
         <a-page>
             <smol-header></smol-header>
 
-            <a-code-preview label="./my-component.js"></a-code-preview>
-
             <a-list-item label="Dark Mode">
                 <a-toggle value="${ _bind(enableDarkMode) }"></a-toggle>
             </a-list-item>
