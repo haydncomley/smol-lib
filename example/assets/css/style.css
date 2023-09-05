@@ -1,0 +1,35 @@
+:root {
+    --background: #ffffff;
+    --background-alt: #e1e7e8;
+    --background-contrast: #101010;
+
+    --primary: #bfd5fc;
+    --primary-alt: #c9d8f3;
+    --primary-glow: #cad3e3;
+    --primary-contrast: #101010;
+
+    --secondary: #dd8ab7;
+
+    --thickness: 0.1rem;
+    --round: 5rem;
+    --rounded: 0.4rem;
+    --spread: 0 .05rem .5rem;
+    --spacing: .6rem;
+    --break: .25rem;
+    --indent: var(--spacing) calc(var(--spacing) * 1.4);
+
+    --small: .8rem;
+    --normal: 1rem;
+    --large: 1.5rem;
+    --faded: 0.75;
+    --animate: 0.15s ease;
+
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 16px;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}

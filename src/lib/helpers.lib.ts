@@ -8,8 +8,8 @@ export const isBlock = (value: unknown) => {
     return (typeof value === 'object' ? (value?.hasOwnProperty('items')) : false) as boolean;
 }
 
-export const getVar = <T>(val: ReturnType<ComponentVariable<unknown>['get']>): T => {
-    return (typeof val === 'function' ? getVar(val()) : val) as T;
+export const getVar = <T>(val: ReturnType<ComponentVariable<unknown>['get']>, ...args: any[]): T => {
+    return (typeof val === 'function' ? getVar(val(...args)) : val) as T;
 }
 
 export const getVarOrPrimitive = (value: unknown) => {

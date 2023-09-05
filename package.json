@@ -9,6 +9,9 @@
   "scripts": {
     "dev": "tsc --watch"
   },
+  "files": [
+    "dist"
+  ],
   "keywords": [],
   "author": "Haydn Comley <haydn.comley@clearscore.com>",
   "license": "ISC",

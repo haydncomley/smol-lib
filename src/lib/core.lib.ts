@@ -1,6 +1,11 @@
 import { isVar, isBlock, getVarOrPrimitive, getVar, getAttributeBindings } from "./helpers.lib.js";
 import { ComponentBlock, ComponentOptions, ComponentRenderOptions, ComponentSettings, ComponentVariable } from "./types.lib.js";
 
+let globalStore: { [key: string]: {
+    value: any,
+    bindings: ((value: any) => void)[]
+} } = {};
+
 const createCommentMarker = (id: string | number, item: any, context: string) => {
     if (context.endsWith('="')) return `<!--A::-->`;
 
@@ -75,7 +80,7 @@ export const createHTML = (store: unknown[], bindings: ((newValue: any) => void)
                         totalItems[i]!.textContent = getVal();
                     });
                 } else if (split[0] === 'B') {
-                    const block = args.filter((i) => typeof i !== 'number' && !['class', 'bind'].includes((i as any).evalType))[i - 1] as ComponentBlock;
+                    const block = args.filter((i) => typeof i !== 'number' && !['class', 'bind', 'echo'].includes((i as any).evalType))[i - 1] as ComponentBlock;
                     if (block?.evalType === 'if') {
                         const doEval = () => {
                             const val = getVar(block.eval?.get());
@@ -146,27 +151,46 @@ export const createHTML = (store: unknown[], bindings: ((newValue: any) => void)
     
                         doEval();
                         currentBinding.items.forEach((item) => {
+                            if (!bindings[(item as unknown as ComponentVariable<boolean>).id]) bindings[(item as unknown as ComponentVariable<boolean>).id] = [];
                             bindings[(item as unknown as ComponentVariable<boolean>).id].push(() => doEval());
                         })
+                    } else if (currentBinding.evalType === 'echo') {
+                        const name = attr.name;
+                        const doEval = () => {
+                            const value = typeof currentBinding?.eval === 'object' ? currentBinding?.eval?.get() : currentBinding?.eval;
+                            if (typeof value === 'boolean') {
+                                element.hasAttribute(name) ? element.removeAttribute(name) : element.setAttribute(name, '')
+                            } else {
+                                element.setAttribute(name, value);
+                            }
+                        }
+    
+                        doEval();
+                        if (typeof currentBinding?.eval === 'object') {
+                            bindings[currentBinding.eval!.id].push(() => doEval());
+                        }
                     } else if (currentBinding.evalType === 'bind') {
                         const name = attr.name;
                         element.removeAttribute(attr.name);
 
                         const doEval = () => {
                             const targetElement = element as any;
-                            if (targetElement.setBinding) {
-                                targetElement.setBinding(name, currentBinding.eval?.get());
-                            }
+                            requestAnimationFrame(() => {
+                                if (targetElement.setBinding) {
+                                    const bindingValue = currentBinding.eval?.get();
+                                    targetElement.setBinding(name, bindingValue);
+                                }
+                            });
                         }
     
                         doEval();
                         bindings[currentBinding.eval!.id].push(() => doEval());
-                        if (currentBinding.items[0] !== undefined) {
+                        requestAnimationFrame(() => {
                             (element as any).getBinding(name, (val: unknown) => {
                                 store[currentBinding.eval!.id] = val;
                                 bindings[currentBinding.eval!.id].forEach((r) => r(val));
                             });
-                        }
+                        })
                     }
                 }
             })
@@ -191,7 +215,6 @@ export const createComponent = (tag: string, func: (options: {
         componentStoreBindings: (() => void)[][];
         constructor() {
             super();
-            ;
             const root = this.attachShadow({ mode: 'closed' });
             
             if (typeof settings === 'string' || settings?.styles !== undefined) {
@@ -204,8 +227,9 @@ export const createComponent = (tag: string, func: (options: {
             this.componentStoreBindings = componentStoreBindings;
         }
 
-        setBinding = (key: string, val: unknown) => {
-            if (this.componentArgStore[key]) this.componentArgStore[key].set(() => val);
+        setBinding = (key: string, val: any) => {
+            if (!this.componentArgStore[key]) return;
+            this.componentArgStore[key].set(() => val);
         };
 
         getBinding = (key: string, callback: (value: any) => void) => {
@@ -252,7 +276,7 @@ export const createComponentLogic = (root: ShadowRoot, func: (options: {
             },
             _class: (classes) => {
                 const classListeners = componentOptions.use!(() => {
-                    return Object.values(classes).map((x) => x.get()).map((x, i) => x ? Object.keys(classes)[i] : '').join(' ').trim();
+                    return Object.values(classes).map((x) => typeof x === 'object' ?  x.get() : x).map((x, i) => x ? Object.keys(classes)[i] : '').filter(Boolean).join(' ').trim();
                 }, []);
 
                 return {
@@ -261,15 +285,18 @@ export const createComponentLogic = (root: ShadowRoot, func: (options: {
                     evalType: 'class'
                 }
             },
-            _bind: (value, backBind) => {
+            _bind: (value) => {
                 return {
-                    items: [backBind as any, (value: (prevValue: unknown) => unknown) => {
-                        const newValue =  value(componentStore[backBind!.id] as unknown);
-                        componentStore[backBind!.id] = newValue;
-                        componentStoreBindings[backBind!.id].forEach((binding) => binding());
-                    }],
+                    items: [],
                     eval: value,
                     evalType: 'bind'
+                }
+            },
+            _echo: (variable) => {
+                return {
+                    items: [variable] as any,
+                    eval: variable,
+                    evalType: 'echo'
                 }
             }
         });
@@ -295,24 +322,50 @@ export const createComponentLogic = (root: ShadowRoot, func: (options: {
         return {
             id: index - 1,
             get: () => getVar(componentStore[index - 1]),
-            set: (value: (prevValue: typeof val) => typeof val) => {
-                const newValue =  value(componentStore[index - 1] as typeof val);
-                if (newValue !== componentStore[index - 1]) {
+            set: (value) => {
+                const newValue = typeof value === 'function' ? (value as any)(componentStore[index - 1] as typeof val) : value;
+                const oldValue = componentStore[index - 1];
+                if (newValue != oldValue) {
                     componentStore[index - 1] = newValue;
                     componentStoreBindings[index - 1].forEach((binding) => binding());
                 }
             },
         } as ComponentVariable<typeof val>
     };
-    componentOptions.arg = (key, transformer, initial) => {
-        if (!componentArgStore[key]) componentArgStore[key] = componentOptions.use!(initial);
+    componentOptions.arg = (key, {transformer, initial}) => {
+        const attrValue = root.host.getAttribute(key) ? root.host.getAttribute(key) : root.host.hasAttribute(key) ? true : initial;
+        if (!componentArgStore[key]) componentArgStore[key] = componentOptions.use!(attrValue);
         const keyedVariable = componentArgStore[key];
         return {
             id: keyedVariable.id,
-            get: () => transformer ? transformer(getVar(componentStore[keyedVariable.id])) : getVar(componentStore[keyedVariable.id]),
-            set: (callback) => {
-                keyedVariable.set(callback);
-            }
+            get: (...args) => transformer ? transformer(getVar(componentStore[keyedVariable.id], ...args)) : getVar(componentStore[keyedVariable.id], ...args),
+            set: keyedVariable.set
+        }  as ComponentVariable<any>
+    };
+    componentOptions.store = (key, {transformer, initial}) => {
+        if (!globalStore[key]) globalStore[key] = {
+            value: initial,
+            bindings: []
+        };
+        const keyedVariable = componentOptions.use!(globalStore[key].value);
+        const updater = (value: any) => keyedVariable.set(value);
+        globalStore[key].bindings.push(updater);
+
+        componentStoreBindings[keyedVariable.id].push(() => {
+            const value = keyedVariable.get();
+            globalStore[key].bindings.filter((x) => x !== updater).forEach((binding) => binding(value));
+        });
+
+        return {
+            id: keyedVariable.id,
+            get: (...args) => transformer ? transformer(getVar(componentStore[keyedVariable.id], ...args)) : getVar(componentStore[keyedVariable.id], ...args),
+            set: keyedVariable.set
+        }  as ComponentVariable<any>
+    };
+    componentOptions.action = (callback) => {
+        return {
+            id: 0,
+            get: () => callback
         }  as ComponentVariable<any>
     };
 
