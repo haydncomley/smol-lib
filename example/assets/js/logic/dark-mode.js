@@ -1,17 +1,18 @@
 const DARK_MODE_KEY = 'enable-dark-mode';
 
-export const PrefersDarkMode = () => {
-    const hasPreference = localStorage.getItem(DARK_MODE_KEY);
-    if (hasPreference) return localStorage.getItem(DARK_MODE_KEY) === 'true';
-    if (window.matchMedia) {
-        const systemSetting = window.matchMedia('(prefers-color-scheme: dark)').matches;;
-        SetPrefersDarkMode(systemSetting)
-        return systemSetting;
-    };
+const SystemDarkMode = () => {
+    if (window.matchMedia) return window.matchMedia('(prefers-color-scheme: dark)').matches;
     return false;
 }
 
+export const PrefersDarkMode = () => {
+    const hasPreference = localStorage.getItem(DARK_MODE_KEY);
+    if (hasPreference) return localStorage.getItem(DARK_MODE_KEY) === 'true';
+    return SystemDarkMode();
+}
+
 export const SetPrefersDarkMode = (enableDarkMode) => {
-    if (enableDarkMode) localStorage.setItem(DARK_MODE_KEY, 'true');
+    const systemPref = SystemDarkMode();
+    if (enableDarkMode !== systemPref) localStorage.setItem(DARK_MODE_KEY, String(enableDarkMode));
     else localStorage.removeItem(DARK_MODE_KEY);
 }
