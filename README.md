@@ -39,12 +39,17 @@
 <p align="center">
 	<h3 align="center">How do I use it?</h3>
 	<p align="center">
-		Either <code>yarn add smol-lib</code> or copy <code>lib/index.js</code> into your project and off you go.
+        <code>yarn add smol-lib</code>
+        <br/>
+        or <a href="https://cdn.jsdelivr.net/npm/smol-lib@latest">https://cdn.jsdelivr.net/npm/smol-lib@latest</a>
+        <br/>
+		or copy <a href="/lib/index.js">/lib/index.js</a> into your project.
     </p>
 </p>
 
 ```javascript
-import { createComponent } from '.../index.js';
+// via - package import
+import { createComponent } from 'smol-lib';
 
 createComponent('my-component', () => {
     return ({ render }) => render`
@@ -54,9 +59,22 @@ createComponent('my-component', () => {
     `;
 }, `
     .my-component {
-        display: block;
-        margin: 0;
-        padding: 0;
+        color: red;
+    }
+`);
+```
+
+```javascript
+// via - CDN (https://cdn.jsdelivr.net/npm/smol-lib@latest)
+smol.createComponent('my-component', () => {
+    return ({ render }) => render`
+    <p class="my-component">
+        Hello from my component!
+    </p>
+    `;
+}, `
+    .my-component {
+        color: red;
     }
 `);
 ```
