@@ -4,7 +4,7 @@ export const PrefersDarkMode = () => {
     const hasPreference = localStorage.getItem(DARK_MODE_KEY);
     if (hasPreference) return localStorage.getItem(DARK_MODE_KEY) === 'true';
     if (window.matchMedia) {
-        const systemSetting = window.matchMedia('prefers-color-scheme: dark').matches;
+        const systemSetting = window.matchMedia('(prefers-color-scheme: dark)').matches;;
         SetPrefersDarkMode(systemSetting)
         return systemSetting;
     };
