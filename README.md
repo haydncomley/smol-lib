@@ -1,6 +1,6 @@
 <p align="center">
     <p align="center">
-        <img src="./example/assets/img/favicon.png" height="75px">
+        <img src="https://github.com/haydncomley/smol-lib/blob/main/example/assets/img/favicon.png?raw=true" height="75px">
         <br/>
         a library for quickly creating web components
         <br/>
