@@ -1,4 +1,4 @@
-import { createComponent } from '../../../dist/index.js'
+import { createComponent } from '../../../lib/index.js'
 import { PrefersDarkMode, SetPrefersDarkMode } from './logic/dark-mode.js'
 
 createComponent('a-app', ({ $ }) => {    

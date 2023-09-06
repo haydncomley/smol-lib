@@ -1,23 +1,15 @@
 {
-    "include": ["src/**/*", "src/**/*.json"],
-    "exclude": ["node_modules", "dist"],
-    "types": ["node"],
-    "compilerOptions": {
-      "baseUrl": "./",
-      "composite": true,
-      "esModuleInterop": true,
-      "forceConsistentCasingInFileNames": true,
-      "module": "esNext",
-      "target": "esNext",
-      "lib": ["ESNext", "DOM", "DOM.Iterable"],
-      "skipLibCheck": true,
-      "sourceMap": false,
-      "strict": true,
-      "allowJs": true,
-      "declaration": true,
-      "rootDir": "./src",
-      "outDir": "./dist",
-      "tsBuildInfoFile": "./dist/tsconfig.tsbuildinfo",
-    },
+  "include": ["src/**/*", "src/**/*.json"],
+  "exclude": ["node_modules", "dist"],
+  "compilerOptions": {
+    "declaration": true,
+    "target": "esnext",
+    "lib": ["esnext", "dom"],
+    "strict": true,
+    "noImplicitAny": false,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "outDir": "lib",
+    "resolveJsonModule": true,
   }
-  
+  }

@@ -1,4 +1,4 @@
-import { createComponent } from '../../../../../dist/index.js';
+import { createComponent } from '../../../../../lib/index.js';
 
 createComponent('smol-header', ({ $ }) => {
     const darkMode = $.store('dark-mode', {});

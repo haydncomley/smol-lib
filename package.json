@@ -1,18 +1,17 @@
 {
-  "name": "smol",
-  "version": "1.0.0",
+  "name": "smol-lib",
+  "version": "1.0.1",
   "description": "",
   "src": "src/index.ts",
-  "types": "dist/index.d.ts",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
+  "types": "lib/index.d.ts",
+  "main": "lib/index.js",
   "scripts": {
     "dev": "tsc --watch",
-    "build": "tsc",
-    "bundle": "node ./bundle.mjs"
+    "build": "node ./build.mjs",
+    "build:docs": "yarn build && node ./example/build.mjs"
   },
   "files": [
-    "dist"
+    "lib"
   ],
   "keywords": [],
   "author": "Haydn Comley <haydn.comley@clearscore.com>",

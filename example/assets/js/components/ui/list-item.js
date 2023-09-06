@@ -1,4 +1,4 @@
-import { createComponent } from '../../../../../dist/index.js';
+import { createComponent } from '../../../../../lib/index.js';
 
 createComponent('a-list-item', ({ $ }) => {
     const label = $.arg('label', { transformer: (val) => String(val) });

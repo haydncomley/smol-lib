@@ -1,4 +1,4 @@
-import { createComponent } from '../../../../../dist/index.js';
+import { createComponent } from '../../../../../lib/index.js';
 
 createComponent('a-link', ({ $ }) => {
     const href = $.arg('href', { transformer: (val) => String(val), initial: '' });

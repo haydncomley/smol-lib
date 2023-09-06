@@ -1,4 +1,4 @@
-import { createComponent } from '../../../../../dist/index.js';
+import { createComponent } from '../../../../../lib/index.js';
 
 createComponent('a-radio', ({ $ }) => {
     const value = $.arg('value', { transformer: (val) => Boolean(val), initial: false });
