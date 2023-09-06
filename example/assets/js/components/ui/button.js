@@ -25,6 +25,7 @@ createComponent('a-button', ({ $ }) => {
         margin: 0;
         transition: var(--animate);
         font-size: var(--normal);
+        -webkit-tap-highlight-color: transparent;
     }
 
     .button.disabled {

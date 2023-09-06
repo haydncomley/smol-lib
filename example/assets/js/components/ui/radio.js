@@ -26,6 +26,7 @@ createComponent('a-radio', ({ $ }) => {
         margin: 0;
         width: calc(var(--normal));
         transition: var(--animate);
+        -webkit-tap-highlight-color: transparent;
     }
 
     .checkbox.disabled {

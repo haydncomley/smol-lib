@@ -26,6 +26,7 @@ createComponent('a-toggle', ({ $ }) => {
         margin: 0;
         width: calc(var(--normal) * 2);
         transition: var(--animate);
+        -webkit-tap-highlight-color: transparent;
     }
 
     .toggle.disabled {
