@@ -58,25 +58,68 @@ createComponent('my-component', () => {
     </p>
     `;
 }, `
+	@keyframes rainbow {
+    	0% {
+      	color: hsl(0, 100%, 50%);
+      }
+      
+      33% {
+      	color: hsl(100, 100%, 50%);
+      }
+      
+      77% {
+      	color: hsl(300, 100%, 50%);
+      }
+      
+      100% {
+      	color: hsl(360, 100%, 50%);
+      }
+    }
+	
     .my-component {
-        color: red;
+        animation: rainbow 1s infinite;
     }
 `);
+}
 ```
 
-```javascript
+```html
 // via - CDN (https://cdn.jsdelivr.net/npm/smol-lib@latest)
-smol.createComponent('my-component', () => {
-    return ({ render }) => render`
-    <p class="my-component">
-        Hello from my component!
-    </p>
-    `;
-}, `
-    .my-component {
-        color: red;
+<script type="module" src="https://cdn.jsdelivr.net/npm/smol-lib@latest" onload="onload()"></script>
+
+<script>
+    function onload() {
+        smol.createComponent('my-component', () => {
+        return ({ render }) => render`
+        <p class="my-component">
+            Hello from my component!
+        </p>
+        `;
+    }, `
+        @keyframes rainbow {
+            0% {
+            color: hsl(0, 100%, 50%);
+        }
+        
+        33% {
+            color: hsl(100, 100%, 50%);
+        }
+        
+        77% {
+            color: hsl(300, 100%, 50%);
+        }
+        
+        100% {
+            color: hsl(360, 100%, 50%);
+        }
+        }
+        
+        .my-component {
+            animation: rainbow 1s infinite;
+        }
+    `);
     }
-`);
+</script>
 ```
 
 ---

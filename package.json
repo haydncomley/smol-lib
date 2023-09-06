@@ -1,6 +1,6 @@
 {
   "name": "smol-lib",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "src": "src/index.ts",
   "types": "lib/index.d.ts",
