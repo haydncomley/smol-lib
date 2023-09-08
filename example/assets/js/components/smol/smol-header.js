@@ -6,7 +6,7 @@ createComponent('smol-header', ({ $ }) => {
     return ({ render, _if }) => render`
     <header>
         <smol-logo></smol-logo>
-        <p>a library for quickly creating ${ _if(darkMode, () => render`cool`) } web components</p>
+        <p>a library for quickly creating web components</p>
         <p>zero dependencies - just javascript</p>
 
         <img src="./assets/img/lines.svg" />
@@ -15,7 +15,7 @@ createComponent('smol-header', ({ $ }) => {
 }, `
     header {
         padding: calc(var(--spacing) * 3);
-        border-bottom: 1px solid var(--background-alt);
+        border-bottom: var(--thickness) solid var(--background-alt);
         position: sticky;
         top: 0;
         backdrop-filter: blur(.3rem) grayscale(1);

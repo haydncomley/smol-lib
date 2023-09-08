@@ -36,7 +36,9 @@ export type ComponentRenderOptions = {
         [key: string]: ComponentVariable<any>;
     }) => ComponentBlock;
     _echo: (variable: ComponentVariable<any>) => ComponentBlock;
-    _bind: (value: ComponentVariable<any>, settings?: { serialise: boolean }) => ComponentBlock;
+    _bind: (value: ComponentVariable<any>, settings?: {
+        serialise?: boolean;
+    }) => ComponentBlock;
 };
 export type ComponentBlock = {
     items: (Node | null)[];

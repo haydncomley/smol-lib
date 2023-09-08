@@ -79,7 +79,7 @@ createComponent('a-app', ({ $ }) => {
 
     main.dark {
         --background: #101010;
-        --background-alt: #3a3a3a;
+        --background-alt: #4e4e4e;
         --background-contrast: #ffffff;
     
         --primary-alt: #52575e;

@@ -30,7 +30,7 @@ export type ComponentRenderOptions = {
     _for: <T>(condition: ComponentVariable<T>, render: (val: T extends (infer Item)[] ? Item : T, index: number) => ComponentBlock) => ComponentBlock,
     _class: (classes: { [key: string]: ComponentVariable<any> }) => ComponentBlock,
     _echo: (variable: ComponentVariable<any>) => ComponentBlock,
-    _bind: (value: ComponentVariable<any>, backBindValue?: ComponentVariable<any>) => ComponentBlock,
+    _bind: (value: ComponentVariable<any>, settings?: { serialise?: boolean }) => ComponentBlock,
 };
 
 export type ComponentBlock = {
