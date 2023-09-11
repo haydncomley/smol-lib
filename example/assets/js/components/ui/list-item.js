@@ -11,7 +11,7 @@ createComponent('a-list-item', ({ $ }) => {
     `;
 }, `
     .list-item {
-        border-bottom: var(--thickness) solid var(--background-alt);
+        border-bottom: 1px solid var(--background-alt);
         border-radius: var(--roundness);
         padding: var(--spacing);
         display: flex;

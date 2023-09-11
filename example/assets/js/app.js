@@ -14,6 +14,8 @@ createComponent('a-app', ({ $ }) => {
 
     
     const onClick = $.action(() => enableDarkMode.set(true));
+    const onClickOther = $.action(() => enableDarkMode.set(false));
+
     const buttonText = $.use(() => {
         SetPrefersDarkMode(enableDarkMode.get());
         return enableDarkMode.get() ? 'Disabled' : 'Enabled';
@@ -39,7 +41,7 @@ createComponent('a-app', ({ $ }) => {
                 </a-button>
             </a-list-item>
             <a-list-item label="This is another button">
-                <a-button>
+                <a-button click="${ _bind(onClickOther) }">
                     Useless Button
                 </a-button>
             </a-list-item>
