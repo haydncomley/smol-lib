@@ -1,13 +1,3 @@
-import { createComponent } from "./lib/core.lib.js";
-import { version } from "../package.json";
-
-if (typeof window !== 'undefined') {
-    (window as any).smol = {
-        createComponent,
-        version
-    }
-};
-
-export {
-    createComponent
-}
+export { render, element } from "./r/rendering";
+export { compute, value, sharedValue } from "./r/state";
+export { component, listen, bind, input, provide, consume } from "./r/component";
